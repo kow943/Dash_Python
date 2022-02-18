@@ -66,7 +66,10 @@ def parse_contents(contents, filename, date):
         html.P("Inset Y axis data"),
         dcc.Dropdown(id='yaxis-data',
                      options=[{'label':x, 'value':x} for x in df.columns]),
-        html.Button(id="submit-button", children="Create Graph"),
+        html.P("Choose Chart type"),
+        dcc.Dropdown(id='graph-data',
+                     options=['Bar', 'Line', 'Area']),
+        html.Button(id="submit-button", children="Create Graph", style = {'marginTop':40}),
         html.Hr(),
 
         dash_table.DataTable(
@@ -103,14 +106,21 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
               Input('submit-button','n_clicks'),
               State('stored-data','data'),
               State('xaxis-data','value'),
-              State('yaxis-data', 'value'))
-def make_graphs(n, data, x_data, y_data):
+              State('yaxis-data', 'value'),
+              State('graph-data', 'value'))
+def make_graphs(n, data, x_data, y_data, chart_type):
     if n is None:
         return dash.no_update
     else:
-        bar_fig = px.bar(data, x=x_data, y=y_data)
-        # print(data)
-        return dcc.Graph(figure=bar_fig)
+        if chart_type == 'Bar':
+            bar_fig = px.bar(data, x=x_data, y=y_data)
+            return dcc.Graph(figure=bar_fig)
+        elif chart_type == "Line":
+            line_fig = px.line(data, x=x_data, y=y_data)
+            return dcc.Graph(figure=line_fig)
+        elif chart_type =='Pie':
+            pie_fig = px.area(data, x=x_data, y=y_data)
+            return dcc.Graph(figure=pie_fig)
 
 
 
