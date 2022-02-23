@@ -14,31 +14,6 @@ import pandas as pd
 app = dash.Dash(__name__,
                 suppress_callback_exceptions=True)
 
-app.layout = html.Div([ # this code section taken from Dash docs https://dash.plotly.com/dash-core-components/upload
-    dcc.Upload(
-        id='upload-data',
-        children=html.Div([
-            'Drag and Drop or ',
-            html.A('Select Files')
-        ]),
-        style={
-            'width': '100%',
-            'height': '60px',
-            'lineHeight': '60px',
-            'borderWidth': '1px',
-            'borderStyle': 'dashed',
-            'borderRadius': '5px',
-            'textAlign': 'center',
-            'margin': '10px'
-        },
-        # Allow multiple files to be uploaded
-        multiple=True
-    ),
-    html.Div(id='output-div'),
-    html.Div(id='output-datatable'),
-])
-
-
 def parse_contents(contents, filename, date):
     content_type, content_string = contents.split(',')
 
@@ -118,11 +93,33 @@ def make_graphs(n, data, x_data, y_data, chart_type):
         elif chart_type == "Line":
             line_fig = px.line(data, x=x_data, y=y_data)
             return dcc.Graph(figure=line_fig)
-        elif chart_type =='Pie':
+        elif chart_type =='Area':
             pie_fig = px.area(data, x=x_data, y=y_data)
             return dcc.Graph(figure=pie_fig)
 
-
+app.layout = html.Div([ # this code section taken from Dash docs https://dash.plotly.com/dash-core-components/upload
+    dcc.Upload(
+        id='upload-data',
+        children=html.Div([
+            'Drag and Drop or ',
+            html.A('Select Files')
+        ]),
+        style={
+            'width': '100%',
+            'height': '60px',
+            'lineHeight': '60px',
+            'borderWidth': '1px',
+            'borderStyle': 'dashed',
+            'borderRadius': '5px',
+            'textAlign': 'center',
+            'margin': '10px'
+        },
+        # Allow multiple files to be uploaded
+        multiple=True
+    ),
+    html.Div(id='output-div'),
+    html.Div(id='output-datatable'),
+])
 
 if __name__ == '__main__':
     app.run_server(debug=True)

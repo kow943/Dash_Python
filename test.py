@@ -11,9 +11,9 @@ app.layout = html.Div(id = 'parent', children = [
 
         dcc.Dropdown( id = 'dropdown',
         options = [
-            {'label':'Google', 'value':'GOOG' },
-            {'label': 'Apple', 'value':'AAPL'},
-            {'label': 'Amazon', 'value':'AMZN'},
+            {'labels':'Google', 'value':'GOOG' },
+            {'labels': 'Apple', 'value':'AAPL'},
+            {'labels': 'Amazon', 'value':'AMZN'},
             ],
         value = 'GOOG'),
         dcc.Graph(id = 'plot')
